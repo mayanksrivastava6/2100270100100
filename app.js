@@ -8,7 +8,7 @@ const TEST_SERVER_URL = "http://testserver.com/numbers";
 const QUALIFIED_IDS = new Set(['p', 'f', 'e', 'r']);
 let numbersWindow = [];
 let lock = false;
-async function fetchNumber(idType) {
+async function fetch(idType) {
     try {
         const response = await axios.get(`${TEST_SERVER_URL}/${idType}`, { timeout: 500 });
         return response.data.number;
@@ -21,7 +21,7 @@ app.get('/numbers/:idType', async (req, res) => {
     const idType = req.params.idType;
 
     if (!QUALIFIED_IDS.has(idType)) {
-        return res.status(400).json({ error: "Invalid ID type" });
+        return res.status(400).json({ error: "Invalid id" });
     }
 
     if (lock) {
@@ -30,7 +30,7 @@ app.get('/numbers/:idType', async (req, res) => {
 
     lock = true;
 
-    const newNumber = await fetchNumber(idType);
+    const newNumber = await fetch(idType);
 
     let previousWindow;
     let currentWindow;
