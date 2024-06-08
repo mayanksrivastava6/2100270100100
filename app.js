@@ -2,9 +2,9 @@ const express = require('express');
 const axios = require('axios');
 
 const app = express();
-const PORT = 3000;
+const PORT = 9876;
 const WINDOW_SIZE = 10;
-const TEST_SERVER_URL = "http://testserver.com/numbers";
+const TEST_SERVER_URL = "http://localhost:9876/numbers/e";
 const QUALIFIED_IDS = new Set(['p', 'f', 'e', 'r']);
 let numbersWindow = [];
 let lock = false;
@@ -47,7 +47,7 @@ app.get('/numbers/:idType', async (req, res) => {
         currentWindow = [...numbersWindow];
     }
 
-    const average = currentWindow.length > 0 ? currentWindow.reduce((a, b) => a + b, 0) / currentWindow.length : 0;
+    const avg = currentWindow.length > 0 ? currentWindow.reduce((a, b) => a + b, 0) / currentWindow.length : 0;
 
     lock = false;
 
@@ -55,7 +55,7 @@ app.get('/numbers/:idType', async (req, res) => {
         new_number: newNumber,
         previous_window: previousWindow,
         current_window: currentWindow,
-        average: average
+        avg: avg
     });
 });
 
